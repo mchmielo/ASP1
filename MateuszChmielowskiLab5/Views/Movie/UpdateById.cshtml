@@ -1,0 +1,17 @@
+﻿@model MateuszChmielowskiLab5.Models.Movie
+@{
+    ViewBag.Title = "UpdateById";
+}
+
+<h2>Edytuj film</h2>
+<div>
+    @using (Html.BeginForm("Save", "Movie", FormMethod.Post))
+    {
+        @Html.HiddenFor(Mode => Model.Id)
+        @Html.DisplayNameFor(Model => Model.Name)
+        @Html.EditorFor(Model => Model.Name)
+        @Html.DisplayNameFor(Model => Model.ReleaseDate)
+        @Html.EditorFor(Model => Model.ReleaseDate)
+        <input type="submit" value="Dodaj"/>
+    }
+</div>

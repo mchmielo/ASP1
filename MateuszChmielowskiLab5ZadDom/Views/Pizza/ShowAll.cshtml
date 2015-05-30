@@ -1,0 +1,54 @@
+﻿@model Tuple<IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Pizza>, IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Dough>>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+@{
+    ViewBag.Title = "ShowAll";
+}
+
+<h2>Wybierz Pizzę</h2>
+
+<div class="table-responsive">
+    @using (Html.BeginForm("ChoosePizza", "Pizza", FormMethod.Post))
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Pizza</th>
+                <th>Składniki</th>
+                <th>Rozmiar</th>
+                <th>Wybierz</th>
+            </tr>
+            @foreach (var pizza in Model.Item1)
+            {
+                <tr>
+                    <td>
+                        <span>@pizza.Name</span>
+                        <img class="pizzaImage" src="../Images/pizza/@(pizza.Picture+".jpg")" />
+                    </td>
+                    <td>
+                        <span>
+                            @foreach (var topping in pizza.Toppings)
+                            {
+                                @topping.Name <br />
+                            }
+                        </span>
+                    </td>
+
+                    <td>
+                        <span>
+                            @foreach (var dough in Model.Item2)
+                            {
+                                @dough.Size <br />
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="@("pizza+"+pizza.ID.ToString())" name="pizzas" value="@pizza.ID" />
+                    </td>
+                </tr>
+            }
+        </table>
+        <input type="submit" value="Kontynuuj" id="buttonInTheMiddle" />
+    }
+</div>

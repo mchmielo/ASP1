@@ -1,0 +1,90 @@
+﻿@model Tuple<IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Pizza>, IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Dough>, IEnumerable<MateuszChmielowskiLab5ZadDom.Models.SideOrder>>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Scripts/ChoosePizzaScripts.js")"></script>
+}
+@{
+    ViewBag.Title = "ChoosePizza";
+}
+<div class="floatingRight">
+    Całkowity koszt: <br />
+    <span id="finalCost">0,00 zł</span>
+</div>
+<h2>Wybierz Pizzę</h2>
+@using (Html.BeginForm("StartOrder", "Pizza", FormMethod.Post))
+{
+    <div class="table-responsive">
+
+        <table class="table table-striped">
+            <tr>
+                <th>Pizza</th>
+                <th>Składniki</th>
+                <th>Rozmiar</th>
+                <th>Cena</th>
+                <th>Wybierz</th>
+            </tr>
+            @foreach (var pizza in Model.Item1)
+            {
+                decimal pizzaPrice = 0;
+                <tr>
+                    <td>
+                        <span>@pizza.Name</span>
+                        <img class="pizzaImage" src="../Images/pizza/@(pizza.Picture+".jpg")" />
+                    </td>
+                    <td>
+                        <span>
+                            @foreach (var topping in pizza.Toppings)
+                            {
+                                @topping.Name <br />
+                                pizzaPrice = pizzaPrice + topping.Price;
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        @foreach (var dough in Model.Item2)
+                        {
+                            <span style="height:30px; padding-top:5px; display:block;">
+                                @(dough.Size.ToString() + " cm")
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var dough in Model.Item2)
+                        {
+                            <span style="height:30px; padding-top:5px; display:block;">
+                                @((dough.Price + pizzaPrice).ToString() + " PLN")
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var dough in Model.Item2)
+                        {
+                            <input id="doughPickNumber" type="number" min="0" max="10" name="@("dough_"+dough.ID.ToString())" value="0" /> <br />
+                        }
+                    </td>
+
+
+                </tr>
+            }
+        </table>
+    </div>
+
+    <h2>Wybierz Dodatki</h2>
+    <div>
+        @foreach (var sideOrder in Model.Item3)
+        {
+            <div id="divWidth200px">@sideOrder.Name </div>           <input id="sideOrderPickNumber" type="number" min="0" max="10" name="@("sideOrder"+sideOrder.ID.ToString())" value="0" /><br />
+        }
+    </div>
+
+    <h2>Podaj adres</h2>
+    <div>
+        <input id="textAddress" type="text" name="address" />
+    </div>
+
+    <input type="submit" value="Kontynuuj" id="buttonInTheMiddle" />
+}
