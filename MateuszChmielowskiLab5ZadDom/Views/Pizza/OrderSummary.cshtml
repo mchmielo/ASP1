@@ -1,0 +1,63 @@
+﻿@model Tuple<IEnumerable<MateuszChmielowskiLab5ZadDom.Models.OrderPizza>, MateuszChmielowskiLab5ZadDom.Models.Order>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+@{
+    ViewBag.Title = "OrderSummary";
+}
+
+<h2>Podsumowanie zamówienia</h2>
+@{int i = -1;
+decimal allCosts = 0;
+decimal pizzaToppingsPrice = 0;
+    <div class="table-responsive">
+        @using (Html.BeginForm("AcceptOrder", "Pizza", FormMethod.Post))
+        {
+            <table class="table table-striped">
+                <tr>
+                    <th>Wybrana pizza</th>
+                    <th>Rozmiar</th>
+                    <th>Cena</th>
+                </tr>
+
+                @foreach (var orderPizza in Model.Item1)
+                {
+                    pizzaToppingsPrice = 0;
+                    foreach (var topping in orderPizza.Pizza.Toppings)
+                    {
+                        pizzaToppingsPrice += topping.Price;
+                    }
+                    allCosts += pizzaToppingsPrice;
+                    allCosts += orderPizza.Dough.Price;
+                    i++;
+                    <tr>
+                        <td>
+                            <input type="hidden" name="@("orderPizza["+i.ToString()+"].PizzaID")" value="@orderPizza.PizzaID" />
+                            @orderPizza.Pizza.Name
+                        </td>
+                        <td>
+                            <input type="hidden" name="@("orderPizza["+i.ToString()+"].DoughID")" value="@orderPizza.DoughID" />
+                            @(orderPizza.Dough.Size.ToString() + " cm ") <br />
+                        </td>
+                        <td>
+                            @( (orderPizza.Dough.Price + pizzaToppingsPrice).ToString() + " PLN")<br />
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td><b> Do zapłaty:</b></td>
+                    <td><b> @(allCosts.ToString() + " PLN")</b></td>
+                </tr>
+            </table>
+            @:Wprowadź adres dostarczenia zamówienia:<br />
+            <input type="text" name="order.DeliveryAddress"><br/>
+            <input type="submit" value="Akceptuj zamówienie" id="buttonInTheMiddle" />
+        }
+        @using (Html.BeginForm("ShowAll", "Pizza", FormMethod.Post))
+        {
+            <input type="submit" value="Anuluj zamówienie" id="buttonInTheMiddle" />
+        }
+    </div>
+}

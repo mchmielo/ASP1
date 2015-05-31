@@ -1,0 +1,17 @@
+﻿@model MateuszChmielowskiLab5ZadDom.Models.Order
+@{
+    ViewBag.Title = "EditChosenStatus";
+}
+
+<h2>EditChosenStatus</h2>
+<div>
+    @using (Html.BeginForm("SaveOrder", "Pizza", FormMethod.Post))
+    {
+        <input type="hidden" name="order.ID" value="@Model.ID" />
+        <select name="order.Status">
+            <option>ZamowienieGotoweDoTransportu</option>
+            <option>KoniecZamowienia</option>
+        </select>
+        <input type="submit" value="Zmień" />
+    }
+</div>

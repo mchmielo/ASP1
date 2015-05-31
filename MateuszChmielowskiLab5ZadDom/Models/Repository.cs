@@ -29,9 +29,18 @@ namespace MateuszChmielowskiLab5ZadDom.Models
             return query;
         }
 
+        public static Pizza GetPizzaByID(int ID)
+        {
+            return (from pizza in databaseContext.Pizzas.Include("Toppings") select pizza).Where(pizza => pizza.ID == ID).FirstOrDefault();
+        }
+
         public static IEnumerable<Dough> GetAllDougs()
         {
             return (from dough in databaseContext.Doughs select dough);
+        }
+        public static Dough GetDoughByID(int ID)
+        {
+            return (from dough in databaseContext.Doughs select dough).Where(dough => dough.ID == ID).FirstOrDefault();
         }
 
         public static IEnumerable<Topping> GetToppingByName(string Name)
@@ -44,6 +53,42 @@ namespace MateuszChmielowskiLab5ZadDom.Models
             return (from sideOrder in databaseContext.SideOrders select sideOrder);
         }
 
+        public static void AddListOfOrderPizzas(List<OrderPizza> orderPizzas)
+        {
+            for (int i = 0; i < orderPizzas.Count; i++)
+            {
+                databaseContext.OrderPizzas.Add(orderPizzas[i]);
+            }
+            databaseContext.SaveChanges();
+        }
+
+        public static int AddOrder(Order order)
+        {
+            databaseContext.Orders.Add(order);
+            databaseContext.SaveChanges();
+            return order.ID;
+        }
+
+        public static IEnumerable<Order> GetAllOrders()
+        {
+            return (from order in databaseContext.Orders.Include("OrderPizzas.Pizza.Toppings").Include("OrderPizzas.Dough") select order);
+        }
+        public static IEnumerable<Order> GetAllUnfinishedOrders()
+        {
+            return (from order in databaseContext.Orders.Include("OrderPizzas.Pizza.Toppings").Include("OrderPizzas.Dough") select order).Where(order=>order.Status != "KoniecZamowienia");
+        }
+        public static Order GetOrderByID(int ID)
+        {
+            return (from order in databaseContext.Orders select order).Where(order => order.ID == ID).FirstOrDefault();
+        }
+
+        public static void UpdateOrderStatusByID(int ID, string newStatus)
+        {
+            Order orderToUpdate = GetOrderByID(ID);
+            orderToUpdate.Status = newStatus;
+            databaseContext.SaveChanges();
+        }
+
         public static void AddSomeDough()
         {
             for (int i = 0; i < 3; i++)
@@ -53,55 +98,6 @@ namespace MateuszChmielowskiLab5ZadDom.Models
                 dough.Size = 25 + i*9;
                 databaseContext.Doughs.Add(dough);
             }
-            databaseContext.SaveChanges();
-        }
-        public static void AddSomeToppings()
-        {
-            Topping topping = new Topping();
-            topping.Name = "ser mozzarella";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "pieczarki";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "sos pomidorowy";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "papryka";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "kukurydza";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "salami";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "szynka";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "kurczak";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "cebula";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "krewetki";
-            topping.Price = 3;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "anchois";
-            topping.Price = 3;
-            databaseContext.Toppings.Add(topping);
-            topping.Name = "oliwki";
-            topping.Price = 2;
-            databaseContext.Toppings.Add(topping);
-            databaseContext.SaveChanges();
-        }
-        public static void AddSomePizzas()
-        {
-            Pizza pizza = new Pizza();
-            pizza.Name = "Margherita";
-            pizza.Toppings = Enumerable.Concat(Repository.GetToppingByName("ser mozzarella"), Repository.GetToppingByName("sos pomidorowy")).ToList();
-            databaseContext.Pizzas.Add(pizza);
             databaseContext.SaveChanges();
         }
     }

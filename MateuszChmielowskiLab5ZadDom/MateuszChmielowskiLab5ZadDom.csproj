@@ -333,6 +333,12 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Pizza\ShowAll.cshtml" />
     <Content Include="Views\Pizza\ChoosePizza.cshtml" />
+    <Content Include="Views\Pizza\ChooseDough.cshtml" />
+    <Content Include="Views\Pizza\OrderSummary.cshtml" />
+    <Content Include="Views\Pizza\AcceptOrder.cshtml" />
+    <Content Include="Views\Pizza\ShowMenu.cshtml" />
+    <Content Include="Views\Pizza\EditOrderStatus.cshtml" />
+    <Content Include="Views\Pizza\EditChosenStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

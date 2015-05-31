@@ -1,0 +1,72 @@
+﻿@model Tuple<IEnumerable<MateuszChmielowskiLab5ZadDom.Models.OrderPizza>, IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Dough>>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+@{
+    ViewBag.Title = "ChooseDough";
+}
+
+<h2>Wybierz rozmiar ciasta</h2>
+@{int i = -1;
+decimal pizzaToppingsPrice = 0;
+    <div class="table-responsive">
+        @using (Html.BeginForm("OrderSummary", "Pizza", FormMethod.Post))
+        {
+            <table class="table table-striped">
+                <tr>
+                    <th>Wybrana pizza</th>
+                    <th>Rozmiar</th>
+                    <th>Cena</th>
+                    <th>Wybierz rozmiar</th>
+                </tr>
+
+                @foreach (var orderPizza in Model.Item1)
+                {
+                    pizzaToppingsPrice = 0;
+                    foreach (var topping in orderPizza.Pizza.Toppings)
+                    {
+                        pizzaToppingsPrice += topping.Price;
+                    }
+                    i++;
+                    <tr>
+                        <td>
+                            <input type="hidden" name="@("orderPizza["+i.ToString()+"].PizzaID")" value="@orderPizza.PizzaID" />
+                            @orderPizza.Pizza.Name
+                        </td>
+                        <td>
+                            @foreach (var dough in Model.Item2)
+                            {
+                                @(dough.Size.ToString() + " cm ") <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var dough in Model.Item2)
+                            {
+                                @( (dough.Price + pizzaToppingsPrice).ToString() + " PLN")<br />
+                            }
+                        </td>
+                        <td>
+                            @{int j = 0;
+                            foreach (var dough in Model.Item2)
+                            {
+
+                                if (j == 0)
+                                {
+                                    @:<input type="radio" class="radioBoxDough" id="@("orderPizza_"+i.ToString()+"_DoughID")" name="@("orderPizza["+i.ToString()+"].DoughID")" value="@(dough.ID)" checked />
+                                }
+                                else
+                                {
+                                    @:<input type="radio" class="radioBoxDough" id="@("orderPizza_"+i.ToString()+"_DoughID")" name="@("orderPizza["+i.ToString()+"].DoughID")" value="@(dough.ID)" />
+                                }
+                                j++;
+                            }
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            <input type="submit" value="Kontynuuj" id="buttonInTheMiddle" />
+        }
+    </div>
+}

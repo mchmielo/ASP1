@@ -19,6 +19,7 @@
     height:30px;
     width: 50px;
     margin-left: 20px;
+    display: block;
 }
 #divWidth200px
 {
@@ -32,4 +33,11 @@
     right: 0px;
     width: 100px;
     height: 80px;
+}
+
+.radioBoxDough
+{
+    max-width: 100px;
+    display:block;
+    margin-top:0px;
 }

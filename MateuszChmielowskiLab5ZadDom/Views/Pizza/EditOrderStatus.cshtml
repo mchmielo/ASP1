@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MateuszChmielowskiLab5ZadDom.Models.Order>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+@{
+    ViewBag.Title = "EditOrderStatus";
+}
+
+<h2>Zmień status zamówienia</h2>
+<div class="table-responsive">
+    @using (Html.BeginForm("OrderSummary", "Pizza", FormMethod.Post))
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Pizze</th>
+                <th>Data zamówienia</th>
+                <th>Adres</th>
+                <th>Do zapłaty</th>
+                <th>Status</th>
+                <th>Edytuj status</th>
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>
+                        @foreach (var orderPizza in order.OrderPizzas)
+                        {
+                            @orderPizza.Pizza.Name <br />
+                        }
+                    </td>
+                    <td>
+                        @order.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @order.DeliveryAddress
+                    </td>
+                    <td>
+                        @{decimal orderPrice = 0;
+                        foreach (var orderPizza in order.OrderPizzas)
+                        {
+                            foreach (var topping in orderPizza.Pizza.Toppings)
+                            {
+                                orderPrice += topping.Price;
+                            }
+                            orderPrice += orderPizza.Dough.Price;
+                        }
+                        @(orderPrice.ToString() + " PLN")
+                        }
+                    </td>
+                    <td>
+                        @order.Status
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "EditChosenStatus", new { @id = @order.ID})
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>

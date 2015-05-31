@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "AcceptOrder";
+}
+
+<h2>Potwierdzenie</h2>
+<div>
+    <h3>Poprawnie dodano zamówienie.</h3>
+    <h3>Dziękujemy za skorzystanie z zamówień online.</h3>
+    <h3>Życzymy smacznego!</h3>
+    @using (Html.BeginForm("ShowAll", "Pizza", FormMethod.Post))
+    {
+        <input type="submit" value="Powrót do zamówień" id="buttonInTheMiddle" />
+    }
+</div>

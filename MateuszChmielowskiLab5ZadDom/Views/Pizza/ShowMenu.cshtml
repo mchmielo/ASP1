@@ -3,25 +3,18 @@
     <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
     <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
 </asp:Content>
-@section scripts
-{
-    <script type="text/javascript" src="@Url.Content("/Scripts/ChoosePizzaScripts.js")"></script>
-}
 @{
-    ViewBag.Title = "ShowAll";
+    ViewBag.Title = "ShowMenu";
 }
 
-<h2>Wybierz Pizzę</h2>
+<h2>Menu</h2>
 
 <div class="table-responsive">
-    @using (Html.BeginForm("ChooseDough", "Pizza", FormMethod.Post))
-    {
         <table class="table table-striped">
             <tr>
                 <th>Pizza</th>
                 <th>Składniki</th>
                 <th>Rozmiar</th>
-                <th>Wybierz</th>
             </tr>
             @foreach (var pizza in Model.Item1)
             {
@@ -47,12 +40,8 @@
                             }
                         </span>
                     </td>
-                    <td>
-                        <input type="checkbox" id="@("pizza+"+pizza.ID.ToString())" name="pizzas" value="@pizza.ID" />
-                    </td>
                 </tr>
             }
         </table>
-        <input type="submit" value="Kontynuuj" id="buttonInTheMiddle" class="continue" />
-    }
+    
 </div>
