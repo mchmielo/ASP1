@@ -1,15 +1,30 @@
 ﻿@model List<MateuszChmielowskiLab5.Models.Movie>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link href="../Content/pizza.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</asp:Content>
 @{
     ViewBag.Title = "ShowAll";
 }
 
 <h2>Lista wszystkich filmów</h2>
-<div>
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <p>Nazwa: <b>@Model[i].Name</b></p>
-        <p> Data: <b>@Model[i].ReleaseDate.ToShortDateString()</b></p>
-        @Html.ActionLink("Usuń", "DeleteById", new { @id = @Model[i].Id })
-        @Html.ActionLink("Edytuj", "UpdateById", new { @id = @Model[i].Id })
-    }
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>Nazwa</th>
+            <th>Data premiery</th>
+            <th>Edytuj</th>
+            <th>Usuń</th>
+        </tr>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td><b>@Model[i].Name</b></td>
+                <td><b>@Model[i].ReleaseDate.ToShortDateString()</b></td>
+                <td>@Html.ActionLink("Edytuj", "UpdateById", new { @id = @Model[i].Id })</td>
+                <td>@Html.ActionLink("Usuń", "DeleteById", new { @id = @Model[i].Id })</td>
+                
+            </tr>
+        }
+    </table>
 </div>
