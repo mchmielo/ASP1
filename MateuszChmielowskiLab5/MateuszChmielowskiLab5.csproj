@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="Models\LibraryDbContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\LibraryDbInitializer.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -326,6 +327,7 @@
     <Content Include="Views\Movie\Index.cshtml" />
     <Content Include="Views\Movie\ShowAll.cshtml" />
     <Content Include="Views\Movie\UpdateById.cshtml" />
+    <Content Include="Views\Movie\_AddNewMovieModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,10 +42,10 @@ namespace MateuszChmielowskiLab5.Controllers
             context.SaveChanges();
             return RedirectToAction("ShowAll");
         }
-
-        public ActionResult DeleteById(int id)
+        [HttpPost]
+        public ActionResult DeleteById(int movieId)
         {
-            Movie movieToDelete = context.Movies.Find(id);
+            Movie movieToDelete = context.Movies.Find(movieId);
             context.Movies.Remove(movieToDelete);
             context.SaveChanges();
             return RedirectToAction("ShowAll");
@@ -58,13 +58,27 @@ namespace MateuszChmielowskiLab5.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Movie movieToUpdate)
+        public string Save(Movie movieToUpdate)
         {
-            Movie movie = context.Movies.Find(movieToUpdate.Id);
-            movie.Name = movieToUpdate.Name;
-            movie.ReleaseDate = movie.ReleaseDate;
-            context.SaveChanges();
+            try
+            {
+                Movie movie = context.Movies.Find(movieToUpdate.Id);
+                movie.Name = movieToUpdate.Name;
+                movie.ReleaseDate = movie.ReleaseDate;
+                context.SaveChanges();
+            }
+            catch(Exception exception)
+            {
+                return exception.Message;
+            }
 
+            return string.Empty;
+        }
+        [HttpPost]
+        public ActionResult AddMovie(Movie newMovie)
+        {
+            context.Movies.Add(newMovie);
+            context.SaveChanges();
             return RedirectToAction("ShowAll");
         }
 

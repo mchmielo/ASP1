@@ -9,7 +9,10 @@ namespace MateuszChmielowskiLab5
 {
     public class LibraryDbContext : DbContext
     {
-        public LibraryDbContext() : base("DefaultConnection") { }
+        public LibraryDbContext() : base("DefaultConnection") 
+        {
+            Database.SetInitializer<LibraryDbContext>(new LibraryDbInitializer()); 
+        }
         public virtual DbSet<Movie> Movies { set; get; }
     }
 }
