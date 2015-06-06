@@ -4,6 +4,7 @@
     ViewBag.Title = "ShowAll";
 }
 @Html.Partial("~/Views/Movie/_AddNewMovieModal.cshtml", new MateuszChmielowskiLab5.Models.Movie() { })
+@Html.Partial("~/Views/Movie/_EditMovieModal.cshtml", new MateuszChmielowskiLab5.Models.Movie() { })
 <button id="add_new_movie_button" class="btn btn-success">Dodaj nowy film</button>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -19,9 +20,9 @@
             @for (int i = 0; i < Model.Count; i++)
             {
                 <tr id="@Model[i].Id">
-                    <td><b>@Model[i].Id</b></td>
-                    <td><b>@Model[i].Name</b></td>
-                    <td><b>@Model[i].ReleaseDate.ToShortDateString()</b></td>
+                    <td>@Model[i].Id</td>
+                    <td>@Model[i].Name</td>
+                    <td>@Model[i].ReleaseDate.ToShortDateString()</td>
                     <td>
                         <button id="edit-@Model[i].Id" class="btn btn-primary edit">Edytuj</button>
                         <button id="delete-@Model[i].Id"  class="btn btn-danger delete">Usuń</button>
@@ -51,5 +52,13 @@
         $("#add_new_movie_button").on("click", function () {
             $("#add_movie_modal").modal('show');
         });
+        
+    });
+    $(document).on("click", ".edit", function () {
+        $("#edit_movie_modal").modal("show");
+        $("#movieID").val($(this).prop('id').substring(5));
+        $("#movieName").val($(this).parent().parent().children("td:nth-child(2)").html());
+        $("#movieDate").val($(this).parent().parent().children("td:nth-child(3)").html());
+        
     });
 </script>

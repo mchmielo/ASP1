@@ -328,6 +328,7 @@
     <Content Include="Views\Movie\ShowAll.cshtml" />
     <Content Include="Views\Movie\UpdateById.cshtml" />
     <Content Include="Views\Movie\_AddNewMovieModal.cshtml" />
+    <Content Include="Views\Movie\_EditMovieModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

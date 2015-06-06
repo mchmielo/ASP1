@@ -50,7 +50,7 @@ namespace MateuszChmielowskiLab5.Controllers
             context.SaveChanges();
             return RedirectToAction("ShowAll");
         }
-
+        
         public ActionResult UpdateById(int id)
         {
             Movie movieToUpdate = (from movies in context.Movies select movies).Where(x => x.Id == id).FirstOrDefault();
@@ -73,6 +73,16 @@ namespace MateuszChmielowskiLab5.Controllers
             }
 
             return string.Empty;
+        }
+
+        [HttpPost]
+        public ActionResult UpdateMovie(Movie movieToUpdate)
+        {
+            Movie movie = context.Movies.Find(movieToUpdate.Id);
+            movie.Name = movieToUpdate.Name;
+            movie.ReleaseDate = movieToUpdate.ReleaseDate;
+            context.SaveChanges();
+            return RedirectToAction("ShowAll");
         }
         [HttpPost]
         public ActionResult AddMovie(Movie newMovie)
